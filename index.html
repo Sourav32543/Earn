@@ -114,15 +114,81 @@
         .content-item:hover { transform: translateY(-5px); box-shadow: 0 8px 15px rgba(0,0,0,0.15); }
         .content-item img.item-thumbnail { width: 100%; height: 160px; object-fit: cover; border-radius: 5px; margin-bottom: 10px; background-color: #e0e0e0; }
         .content-item h3 { font-size: 1.15rem; margin-bottom: 8px; color: var(--text-color); flex-grow: 0; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; text-overflow: ellipsis; min-height: 2.6em; }
-        .content-item p.item-description { font-size: 0.9rem; margin-bottom: 10px; color: var(--secondary-color); line-height: 1.4; max-height: 60px; overflow: hidden; text-overflow: ellipsis; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; flex-grow: 1; }
+        
+        .content-item p.item-description {
+            font-size: 0.9rem;
+            margin-bottom: 5px; /* "আরো দেখুন" বাটনের জন্য মার্জিন কমানো হলো */
+            color: var(--secondary-color);
+            line-height: 1.4;
+            max-height: 4.2em; /* প্রায় ৩ লাইন দেখাবে (1.4em line-height * 3 lines) */
+            overflow: hidden; /* অতিরিক্ত লেখা লুকিয়ে রাখবে */
+            position: relative;
+            flex-grow: 0;
+            word-wrap: break-word;
+        }
         .content-item .item-description a { color: var(--primary-color); text-decoration: underline; }
-        .content-item button.watch-btn, .content-item button.view-btn { background-color: var(--primary-color); color: white; border: none; padding: 10px 15px; border-radius: 5px; cursor: pointer; font-size: 0.9rem; margin-top: auto; transition: background-color 0.2s; width: 100%; }
+
+        .read-more-description-btn {
+            background-color: transparent;
+            color: var(--primary-color);
+            border: none;
+            padding: 0;
+            font-size: 0.85rem;
+            font-weight: bold;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+            margin-top: 0px;
+            margin-bottom: 10px;
+        }
+        .read-more-description-btn:hover {
+            text-decoration: underline;
+            color: var(--secondary-color);
+        }
+        .read-more-description-btn i {
+            margin-left: 4px;
+            font-size: 0.75rem;
+        }
+        
+        .content-item-actions {
+            margin-top: auto; /* বিবরণ এবং "আরো দেখুন" বাটনের পর বাকি জায়গা নিয়ে নিচে থাকবে */
+            width: 100%;
+        }
+        .content-item-actions button { /* আগের .content-item button.watch-btn, .content-item button.view-btn এর স্টাইল এখানে সরানো যায় */
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            /* margin-top: auto; /* এটা এখন content-item-actions এ */
+            transition: background-color 0.2s;
+            width: 100%;
+        }
+        .content-item-actions button:not(:last-child) {
+             margin-bottom: 8px;
+        }
+
         .content-item button:disabled { background-color: var(--secondary-color); cursor: not-allowed; }
-        .content-item button.watch-btn:hover:not(:disabled), .content-item button.view-btn:hover:not(:disabled) { opacity: 0.85; }
-        .content-item button.admin-delete-content-btn { background-color: var(--danger-color) !important; color: white !important; font-size: 0.8em !important; padding: 3px 6px !important; margin-top: 8px !important; border: none !important; border-radius: 3px !important; cursor: pointer !important; width: auto !important; align-self: flex-end; }
+        .content-item-actions button:hover:not(:disabled) { opacity: 0.85; }
+
+        .content-item button.admin-delete-content-btn { 
+            background-color: var(--danger-color) !important; 
+            color: white !important; 
+            font-size: 0.8em !important; 
+            padding: 3px 6px !important; 
+            margin-top: 8px !important; /* অ্যাকশন বাটনগুলোর নিচে */
+            border: none !important; 
+            border-radius: 3px !important; 
+            cursor: pointer !important; 
+            width: auto !important; /* সম্পূর্ণ প্রস্থের পরিবর্তে অটো */
+            align-self: flex-end; /* ডানদিকে যাবে */
+        }
+
 
         /* --- Video Player Modal --- */
-        .video-player-modal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.85); display: flex; justify-content: center; align-items: center; z-index: 2000; padding: 15px; opacity: 0; animation: modalFadeIn 0.3s forwards; }
+        .video-player-modal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.85); display: flex; justify-content: center; align-items: center; z-index: 2000; padding: 15px; opacity: 0; animation: modalFadeIn 0.3s forwards; box-sizing: border-box; }
         @keyframes modalFadeIn { to { opacity: 1; } }
         .video-player-content { background-color: var(--card-bg-color); padding: 20px; border-radius: 8px; width: 100%; max-width: 700px; box-shadow: 0 5px 15px rgba(0,0,0,0.3); position: relative; transform: scale(0.9); animation: modalScaleUp 0.3s 0.1s forwards; }
         @keyframes modalScaleUp { to { transform: scale(1); } }
@@ -130,6 +196,80 @@
         .close-modal-btn { position: absolute; top: 10px; right: 15px; background: none; border: none; font-size: 1.8rem; color: var(--text-color); cursor: pointer; line-height: 1; padding: 5px; }
         .video-embed-container { position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; max-width: 100%; background: #000; border-radius: 5px; }
         .video-embed-container iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: 0; }
+
+        /* --- Description Modal --- */
+        .description-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.75);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 2010; /* ভিডিও মডালের উপরে */
+            padding: 20px;
+            opacity: 0;
+            animation: modalFadeIn 0.3s forwards;
+            box-sizing: border-box;
+        }
+        .description-modal-content {
+            background-color: var(--card-bg-color);
+            padding: 25px;
+            border-radius: 8px;
+            width: 100%;
+            max-width: 600px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.35);
+            position: relative;
+            max-height: 85vh;
+            display: flex;
+            flex-direction: column;
+            transform: scale(0.9);
+            animation: modalScaleUp 0.3s 0.1s forwards;
+        }
+        .description-modal-content h3 {
+            margin-top: 0;
+            margin-bottom: 15px;
+            color: var(--primary-color);
+            font-size: 1.3rem;
+            border-bottom: 1px solid var(--input-border);
+            padding-bottom: 10px;
+        }
+        .description-modal-body {
+            font-size: 1rem;
+            line-height: 1.7;
+            color: var(--text-color);
+            overflow-y: auto;
+            margin-bottom: 20px;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+            flex-grow: 1;
+        }
+        .description-modal-body a {
+            color: var(--primary-color);
+            text-decoration: underline;
+        }
+        .description-modal-body a:hover {
+            color: var(--secondary-color);
+        }
+        .description-modal-close-btn {
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 0.95rem;
+            font-weight: bold;
+            align-self: flex-end;
+            margin-top: 10px;
+            transition: background-color 0.2s;
+        }
+        .description-modal-close-btn:hover {
+            opacity: 0.85;
+        }
+
 
         /* --- Profile & Settings Page --- */
         #profile-page .profile-header, #settings-page .settings-header { text-align: center; background-color: var(--card-bg-color); padding: 25px; border-radius: 8px; box-shadow: var(--box-shadow); margin-bottom: 25px; }
@@ -209,7 +349,6 @@
 
     <!-- Loading Screen -->
     <div id="loading-screen" class="page active">
-        <!-- Loading content -->
         <div class="loading-content">
             <div class="logo">💰</div>
             <div class="app-name-typing"><span id="typing-text"></span></div>
@@ -219,7 +358,6 @@
 
     <!-- Login/Sign Up Screen -->
     <div id="auth-screen" class="page">
-        <!-- Auth form -->
         <div class="auth-container">
             <h2>স্বাগতম!</h2>
             <p>চালিয়ে যেতে লগইন করুন বা সাইন আপ করুন।</p>
@@ -235,7 +373,6 @@
     <div id="app-container" class="page">
         <!-- Header -->
         <header id="app-header">
-            <!-- Header content -->
             <div class="header-left">
                 <button id="menu-toggle-btn" class="header-btn"><i class="fas fa-bars"></i></button>
                 <button id="back-btn" class="header-btn"><i class="fas fa-arrow-left"></i></button>
@@ -252,14 +389,12 @@
 
         <!-- Side Navigation Menu -->
         <nav id="side-menu">
-            <!-- Side menu content -->
             <div class="profile-summary-sidebar">
                 <img src="https://via.placeholder.com/60?text=User" alt="User" id="sidebar-profile-pic">
                 <h3 id="sidebar-username">ব্যবহারকারী</h3>
             </div>
             <ul>
                 <li><a href="#" class="nav-link" data-page="home-page"><i class="fas fa-home"></i> হোম</a></li>
-                <!-- Categories populated by JS -->
             </ul>
             <div class="side-menu-footer">
                 <button id="logout-btn-sidebar"><i class="fas fa-sign-out-alt"></i> লগআউট</button>
@@ -270,7 +405,6 @@
         <main id="main-content">
             <!-- Home Page -->
             <div id="home-page" class="app-page active-app-page">
-                <!-- Home page content -->
                 <h2>হোম পেজ</h2>
                 <p>আমাদের অ্যাপে স্বাগতম! এখানে আপনি বিভিন্ন কনটেন্ট ব্রাউজ করতে পারেন।</p>
                 <div class="featured-content">
@@ -281,27 +415,22 @@
                 </div>
             </div>
 
-            <!-- Video Category Page -->
             <div id="video-category-page" class="app-page">
                 <h2 class="category-title">ভিডিও ক্যাটাগরি</h2>
                 <div id="video-list" class="content-grid"></div>
             </div>
 
-            <!-- Website Category Page -->
             <div id="website-category-page" class="app-page">
                 <h2 class="category-title">ওয়েবসাইট ক্যাটাগরি</h2>
                 <div id="website-list" class="content-grid"></div>
             </div>
 
-            <!-- Generic Category Page -->
             <div id="generic-category-page" class="app-page">
                 <h2 id="generic-category-title" class="category-title">ক্যাটাগরি</h2>
                 <div id="generic-category-content" class="content-grid"></div>
             </div>
 
-            <!-- Profile Page -->
             <div id="profile-page" class="app-page">
-                <!-- Profile content -->
                  <h2>প্রোফাইল</h2>
                 <div class="profile-header">
                     <img src="https://via.placeholder.com/120?text=User" alt="User" id="profile-pic-large">
@@ -316,9 +445,7 @@
                 </div>
             </div>
 
-            <!-- Settings Page -->
             <div id="settings-page" class="app-page">
-                <!-- Settings content -->
                  <h2>সেটিংস</h2>
                 <div class="settings-group">
                     <h3>সাধারণ সেটিংস</h3>
@@ -340,12 +467,11 @@
                     <div id="admin-logout-section" style="display:none;">
                         <p class="text-success">আপনি অ্যাডমিন হিসেবে লগইন আছেন।</p>
                         <button id="admin-logout-btn" style="background-color: var(--warning-color);">অ্যাডমিন থেকে লগআউট</button>
-                        <button id="goto-admin-panel-btn" style="margin-top:10px;"><i class="fas fa-user-shield"></i> অ্যাডমিন প্যানেলে যান</button>
+                        <button id="goto-admin-panel-btn" style="margin-top:10px;"><i class="fas fa-user-shield"></i> অ্যাডমিন پ্যানেলে যান</button>
                     </div>
                 </div>
             </div>
 
-            <!-- Notification Page -->
             <div id="notification-page" class="app-page">
                 <h2>নোটিফিকেশন</h2>
                 <div id="notification-list">
@@ -353,11 +479,7 @@
                 </div>
             </div>
 
-            <!-- CHAT PAGE REMOVED -->
-
-            <!-- Admin Panel Page -->
             <div id="admin-panel-page" class="app-page">
-                <!-- Admin panel content -->
                  <h2><i class="fas fa-user-shield"></i> অ্যাডমিন প্যানেল</h2>
                 <div class="admin-section">
                     <h3>ক্যাটাগরি ম্যানেজমেন্ট</h3>
@@ -405,28 +527,23 @@
                     <div id="admin-user-list"></div>
                 </div>
             </div>
-
         </main>
 
-        <!-- Bottom Navigation Bar (Chat item removed) -->
         <nav id="bottom-nav">
             <a href="#" class="nav-item active-nav" data-page="home-page"><i class="fas fa-home"></i><span>হোম</span></a>
             <a href="#" class="nav-item" data-page="video-category-page" data-category-id="videos"><i class="fas fa-video"></i><span>ভিডিও</span></a>
             <a href="#" class="nav-item" data-page="website-category-page" data-category-id="websites"><i class="fas fa-globe"></i><span>ওয়েবসাইট</span></a>
-            <!-- Chat item removed -->
             <a href="#" class="nav-item" data-page="profile-page"><i class="fas fa-user"></i><span>প্রোফাইল</span></a>
         </nav>
     </div>
 
-    <!-- Firebase SDK -->
     <script type="module">
       import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-app.js";
       import { getAnalytics } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-analytics.js";
       import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-auth.js";
       import { getDatabase, ref, set, push, onValue, get, child, remove, serverTimestamp, query, orderByChild, limitToLast } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-database.js";
 
-      // --- Firebase Configuration ---
-       const firebaseConfig = {
+      const firebaseConfig = {
         apiKey: "AIzaSyCWr4zELaIxcDXpt1s12vMVAybRocwkcmk", // Replace
         authDomain: "tronamentapp.firebaseapp.com", // Replace
         databaseURL: "https://tronamentapp-default-rtdb.firebaseio.com", // Replace
@@ -437,13 +554,11 @@
         measurementId: "G-30VW7LCMHF" // Replace
       };
 
-      // --- Initialize Firebase ---
       const app = initializeApp(firebaseConfig);
       const analytics = getAnalytics(app);
       const auth = getAuth(app);
       const database = getDatabase(app);
 
-      // --- Make Firebase services available globally ---
       window.firebase = {
         app, analytics, auth, database,
         createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged, signOut,
@@ -455,14 +570,12 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', () => {
-            // --- Firebase services ---
             const {
                 auth, database, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged, signOut,
                 dbRef, dbSet, dbPush, dbOnValue, dbGet, dbChild, dbRemove, serverTimestamp,
                 dbQuery, dbOrderByChild, dbLimitToLast
              } = window.firebase;
 
-            // --- DOM Element References (Chat elements removed) ---
             const loadingScreen = document.getElementById('loading-screen');
             const authScreen = document.getElementById('auth-screen');
             const appContainer = document.getElementById('app-container');
@@ -497,12 +610,10 @@
             const adminLogoutSection = document.getElementById('admin-logout-section');
             const adminLogoutBtn = document.getElementById('admin-logout-btn');
             const gotoAdminPanelBtn = document.getElementById('goto-admin-panel-btn');
-            // Chat elements removed
             const adminCatName = document.getElementById('admin-cat-name');
             const adminCatIcon = document.getElementById('admin-cat-icon');
             const adminAddCatBtn = document.getElementById('admin-add-cat-btn');
             const adminCategoryList = document.getElementById('admin-category-list');
-            // const adminContentType = document.getElementById('admin-content-type');
             const adminContentTitle = document.getElementById('admin-content-title');
             const adminContentUrl = document.getElementById('admin-content-url');
             const adminContentImageUrl = document.getElementById('admin-content-image-url');
@@ -518,7 +629,6 @@
             const adminUserListContainer = document.getElementById('admin-user-list');
             const typingTextElement = document.getElementById('typing-text');
 
-            // --- App State Variables (Chat variables removed) ---
             let currentUser = null;
             let isAdmin = sessionStorage.getItem('isAdmin') === 'true';
             let pageHistory = [];
@@ -528,9 +638,7 @@
             ];
             let categories = [...defaultCategories];
             let lastSeenNotificationTimestamp = localStorage.getItem('lastSeenNotificationTimestamp') || 0;
-            // chatMessagesListener removed
 
-            // --- Helper Function: Extract YouTube ID ---
             function extractYouTubeId(url) {
                  if (!url) return null; let videoId = null;
                  try {
@@ -542,10 +650,9 @@
                  return (videoId && videoId.length === 11) ? videoId : null;
             }
 
-            // --- INITIALIZATION & AUTH ---
             const loadingText = "Earn Money Online";
             let typeIndex = 0;
-            function typeEffect() { /* ... typeEffect logic ... */
+            function typeEffect() {
                 if (typingTextElement && typeIndex < loadingText.length) {
                     typingTextElement.textContent += loadingText.charAt(typeIndex);
                     typeIndex++; setTimeout(typeEffect, 100);
@@ -557,20 +664,17 @@
                 onAuthStateChanged(auth, (user) => {
                     loadingScreen.classList.remove('active');
                     if (user) {
-                        currentUser = user; console.log("User logged in:", currentUser.uid, currentUser.email);
+                        currentUser = user;
                         loadUserProfile(user.uid); showPage('app-container'); navigateToPage('home-page', 'হোম');
                     } else {
                         currentUser = null; isAdmin = false; sessionStorage.removeItem('isAdmin');
                         showPage('auth-screen'); updateAdminSettingsUI();
-                        // No chat username logic needed here anymore
                     }
-                     // No need to call setupChatPage
                     checkForNewNotifications();
                 });
             }, 2500);
 
-            // --- Theme Management ---
-            function applyTheme(theme) { /* ... applyTheme logic ... */
+            function applyTheme(theme) {
                  if (theme === 'dark') { document.body.classList.add('dark-mode'); if (themeToggleBtnHeader) themeToggleBtnHeader.innerHTML = '<i class="fas fa-sun"></i>'; if (themeToggleSwitch) themeToggleSwitch.checked = true; }
                  else { document.body.classList.remove('dark-mode'); if (themeToggleBtnHeader) themeToggleBtnHeader.innerHTML = '<i class="fas fa-moon"></i>'; if (themeToggleSwitch) themeToggleSwitch.checked = false; }
                  localStorage.setItem('theme', theme);
@@ -579,8 +683,7 @@
             if (themeToggleBtnHeader) { themeToggleBtnHeader.addEventListener('click', () => { applyTheme(document.body.classList.contains('dark-mode') ? 'light' : 'dark'); }); }
             if (themeToggleSwitch) { themeToggleSwitch.addEventListener('change', (e) => { applyTheme(e.target.checked ? 'dark' : 'light'); }); }
 
-            // --- Load Admin Customizations (Colors) ---
-            function loadAdminCustomizations() { /* ... loadAdminCustomizations logic ... */
+            function loadAdminCustomizations() {
                  dbGet(dbChild(dbRef(database), `appSettings/colors`)).then((snapshot) => {
                      if (snapshot.exists()) {
                          const colors = snapshot.val(); const bgColor = colors.background || '#f4f6f8'; const primColor = colors.primary || '#007bff';
@@ -591,8 +694,7 @@
             }
             loadAdminCustomizations();
 
-            // --- PAGE NAVIGATION LOGIC ---
-            function showPage(pageId) { /* ... showPage logic ... */
+            function showPage(pageId) {
                  document.querySelectorAll('.page').forEach(p => p.classList.remove('active')); const targetPageElement = document.getElementById(pageId);
                  if (targetPageElement) { targetPageElement.classList.add('active'); } else { console.error(`showPage: Page with id ${pageId} not found.`); }
             }
@@ -600,19 +702,14 @@
                  appPages.forEach(p => p.classList.remove('active-app-page')); const targetPage = document.getElementById(pageId);
                  if (targetPage) {
                      targetPage.classList.add('active-app-page'); if (pageTitle) pageTitle.textContent = title;
-                     // Update Bottom Nav
                      bottomNavItems.forEach(item => { item.classList.remove('active-nav'); if (item.dataset.page === pageId || (isCategory && item.dataset.categoryId === categoryId)) { item.classList.add('active-nav'); }});
-                     // Update Side Menu
                      const sideMenuNavLinks = sideMenu.querySelectorAll('.nav-link');
                      sideMenuNavLinks.forEach(link => { link.classList.remove('active-link'); if (link.dataset.page === pageId && (!categoryId || link.dataset.categoryId === categoryId)) { link.classList.add('active-link'); }});
-                     // History
                      const currentHistoryEntry = pageHistory[pageHistory.length - 1]; const isSameAsLast = currentHistoryEntry && currentHistoryEntry.id === pageId && currentHistoryEntry.categoryId === categoryId;
                      if (!isSameAsLast) { pageHistory.push({ id: pageId, title: title, categoryId: categoryId, isCategory: isCategory, categoryData: categoryData }); }
                      if (backBtn) backBtn.style.visibility = pageHistory.length > 1 ? 'visible' : 'hidden';
                      if (sideMenu && sideMenu.classList.contains('open')) { sideMenu.classList.remove('open'); }
 
-                     // --- Load Content (Chat case removed) ---
-                     console.log(`Navigating to: ${pageId}, Title: ${title}, Category: ${categoryId}`);
                      if (pageId === 'home-page') loadHomePageContent();
                      else if (pageId === 'video-category-page') loadVideos('videos');
                      else if (pageId === 'website-category-page') loadWebsites('websites');
@@ -620,56 +717,48 @@
                      else if (pageId === 'profile-page' && currentUser) loadUserProfile(currentUser.uid);
                      else if (pageId === 'settings-page') updateAdminSettingsUI();
                      else if (pageId === 'notification-page') loadNotifications();
-                     // else if (pageId === 'chat-page') setupChatPage(); // REMOVED
                      else if (pageId === 'admin-panel-page') { if (isAdmin && currentUser) { loadAdminPanelData(); } else { alert("অ্যাডমিন প্যানেল অ্যাক্সেস করার অনুমতি নেই।"); navigateToPage('settings-page', 'সেটিংস'); }}
                      if (mainContent) mainContent.scrollTop = 0;
                  } else { console.error("NavigateToPage: Page not found:", pageId); navigateToPage('home-page', 'হোম'); }
             }
-            // Back button listener
-            if (backBtn) { backBtn.addEventListener('click', () => { /* ... back logic ... */
+            if (backBtn) { backBtn.addEventListener('click', () => {
                  if (pageHistory.length > 1) { pageHistory.pop(); const previousPage = pageHistory[pageHistory.length - 1]; if (previousPage) { navigateToPage(previousPage.id, previousPage.title, previousPage.isCategory, previousPage.categoryId, previousPage.categoryData); }}
                  if (backBtn) backBtn.style.visibility = pageHistory.length > 1 ? 'visible' : 'hidden';
             }); }
-            // Side menu toggle listener
             if (menuToggleBtn && sideMenu) { menuToggleBtn.addEventListener('click', (e) => { e.stopPropagation(); sideMenu.classList.toggle('open'); }); }
-            // Click outside side menu to close listener
             document.addEventListener('click', (event) => { if (sideMenu && sideMenu.classList.contains('open') && !sideMenu.contains(event.target) && event.target !== menuToggleBtn && !menuToggleBtn.contains(event.target)) { sideMenu.classList.remove('open'); }});
 
-            // --- AUTHENTICATION FUNCTIONS ---
-            if (loginBtn) { loginBtn.addEventListener('click', () => { /* ... login logic ... */
+            if (loginBtn) { loginBtn.addEventListener('click', () => {
                  const email = emailInput.value.trim(); const password = passwordInputAuth.value.trim(); if (!email || !password) return alert("ইমেইল এবং পাসওয়ার্ড দিন।");
                  signInWithEmailAndPassword(auth, email, password).catch((error) => alert("লগইন ব্যর্থ: " + error.message));
             }); }
-            if (signupBtn) { signupBtn.addEventListener('click', () => { /* ... signup logic ... */
+            if (signupBtn) { signupBtn.addEventListener('click', () => {
                  const username = usernameInput.value.trim(); const emailVal = emailInput.value.trim(); const passwordVal = passwordInputAuth.value.trim();
                  if (!username || !emailVal || !passwordVal) return alert("সকল তথ্য পূরণ করুন।"); if (passwordVal.length < 6) return alert("পাসওয়ার্ড কমপক্ষে ৬ অক্ষর হতে হবে।");
                  createUserWithEmailAndPassword(auth, emailVal, passwordVal)
                      .then((userCredential) => dbSet(dbRef(database, 'users/' + userCredential.user.uid), { username, email: emailVal, rank: 'নতুন', createdAt: serverTimestamp(), isAdmin: false }))
                      .catch((error) => alert("সাইন আপ ব্যর্থ: " + error.message));
             }); }
-            // Admin Login (Settings Page)
-            if (adminLoginSubmit) { adminLoginSubmit.addEventListener('click', () => { /* ... admin login logic ... */
+            if (adminLoginSubmit) { adminLoginSubmit.addEventListener('click', () => {
                  if (adminPasswordInput.value === 'sourav0099') { // WARNING: Insecure
                      isAdmin = true; sessionStorage.setItem('isAdmin', 'true'); alert('অ্যাডমিন লগইন সফল!'); updateAdminSettingsUI();
                      if(currentUser) { dbSet(dbRef(database, `users/${currentUser.uid}/isAdmin`), true).catch(err => console.error(err)); }
                  } else { alert('ভুল অ্যাডমিন পাসওয়ার্ড!'); }
                  if (adminPasswordInput) adminPasswordInput.value = '';
             }); }
-            // Admin Logout (Settings Page)
-            if (adminLogoutBtn) { adminLogoutBtn.addEventListener('click', () => { /* ... admin logout logic ... */
+            if (adminLogoutBtn) { adminLogoutBtn.addEventListener('click', () => {
                  isAdmin = false; sessionStorage.removeItem('isAdmin'); alert('অ্যাডমিন লগআউট করা হয়েছে।'); updateAdminSettingsUI();
                  if(currentUser) { dbSet(dbRef(database, `users/${currentUser.uid}/isAdmin`), false).catch(err => console.error(err)); }
                  const activeAppPage = mainContent.querySelector('.app-page.active-app-page'); if(activeAppPage && activeAppPage.id === 'admin-panel-page'){ navigateToPage('settings-page', 'সেটিংস'); }
             }); }
-            function updateAdminSettingsUI() { /* ... updateAdminSettingsUI logic ... */
+            function updateAdminSettingsUI() {
                  if (!adminLoginSection || !adminLogoutSection) return; if (isAdmin && currentUser) { adminLoginSection.style.display = 'none'; adminLogoutSection.style.display = 'block'; }
                  else { adminLoginSection.style.display = 'block'; adminLogoutSection.style.display = 'none'; }
             }
-            if(gotoAdminPanelBtn){ gotoAdminPanelBtn.addEventListener('click', () => { /* ... listener ... */
+            if(gotoAdminPanelBtn){ gotoAdminPanelBtn.addEventListener('click', () => {
                  if(isAdmin && currentUser) { navigateToPage('admin-panel-page', 'অ্যাডমিন প্যানেল'); } else { alert('অ্যাডমিন হিসেবে লগইন করতে হবে।'); }
             }); }
-            // General Logout Handling
-            function handleLogout() { /* ... handleLogout logic (no chat parts) ... */
+            function handleLogout() {
                  signOut(auth).catch((error) => alert("লগআউট সমস্যা: " + error.message));
                  isAdmin = false; sessionStorage.removeItem('isAdmin'); pageHistory = [];
                  if (backBtn) backBtn.style.visibility = 'hidden'; if (sidebarUsername) sidebarUsername.textContent = 'ব্যবহারকারী'; if (sidebarProfilePic) sidebarProfilePic.src = 'https://via.placeholder.com/60?text=User';
@@ -677,11 +766,9 @@
             }
             if (logoutBtnSidebar) logoutBtnSidebar.addEventListener('click', handleLogout);
             if (logoutBtnProfile) logoutBtnProfile.addEventListener('click', handleLogout);
-            // Go to Settings Button
             if (gotoSettingsBtn) { gotoSettingsBtn.addEventListener('click', () => { navigateToPage('settings-page', 'সেটিংস'); }); }
 
-            // --- USER PROFILE LOADING ---
-            function loadUserProfile(userId) { /* ... loadUserProfile logic (no chat parts) ... */
+            function loadUserProfile(userId) {
                 const userRef = dbRef(database, 'users/' + userId);
                 dbOnValue(userRef, (snapshot) => {
                     const defaultPicLarge = 'https://via.placeholder.com/120?text=User'; const defaultPicSmall = 'https://via.placeholder.com/60?text=User';
@@ -689,9 +776,9 @@
                         const userData = snapshot.val(); const username = userData.username || 'N/A'; const email = userData.email || (currentUser ? currentUser.email : 'N/A'); const rank = userData.rank || 'নতুন'; const profilePicUrl = userData.profileImageUrl;
                         if (profilePageUsername) profilePageUsername.textContent = username; if (sidebarUsername) sidebarUsername.textContent = username; if (profileEmail) profileEmail.textContent = email; if (profileRank) profileRank.textContent = rank;
                         if (profilePicLarge) profilePicLarge.src = profilePicUrl || defaultPicLarge; if (sidebarProfilePic) sidebarProfilePic.src = profilePicUrl || defaultPicSmall;
-                        if (currentUser && currentUser.uid === userId) { const dbIsAdmin = userData.isAdmin === true; if (isAdmin !== dbIsAdmin) { console.log(`Admin status sync. Session: ${isAdmin}, DB: ${dbIsAdmin}.`); isAdmin = dbIsAdmin; sessionStorage.setItem('isAdmin', isAdmin.toString()); }}
+                        if (currentUser && currentUser.uid === userId) { const dbIsAdmin = userData.isAdmin === true; if (isAdmin !== dbIsAdmin) { isAdmin = dbIsAdmin; sessionStorage.setItem('isAdmin', isAdmin.toString()); }}
                     } else {
-                        console.warn(`User profile not found: ${userId}`); const emailName = currentUser && currentUser.email ? currentUser.email.split('@')[0] : 'User';
+                        const emailName = currentUser && currentUser.email ? currentUser.email.split('@')[0] : 'User';
                         if (profilePageUsername) profilePageUsername.textContent = emailName; if (sidebarUsername) sidebarUsername.textContent = emailName; if (profileEmail) profileEmail.textContent = currentUser ? currentUser.email : 'N/A'; if (profileRank) profileRank.textContent = 'নতুন';
                         if (profilePicLarge) profilePicLarge.src = defaultPicLarge; if (sidebarProfilePic) sidebarProfilePic.src = defaultPicSmall;
                         if (currentUser && currentUser.uid === userId && isAdmin) { isAdmin = false; sessionStorage.removeItem('isAdmin'); }
@@ -700,8 +787,7 @@
                 }, (error) => { console.error("Error loading user profile:", error); });
             }
 
-            // --- DYNAMIC CATEGORY & CONTENT LOADING ---
-            function loadCategories() { /* ... loadCategories logic ... */
+            function loadCategories() {
                  const categoriesRef = dbRef(database, 'categories');
                  dbOnValue(categoriesRef, (snapshot) => {
                      const firebaseCategories = []; if (snapshot.exists()) { snapshot.forEach(cs => { const d = cs.val(); if (d.name && (d.page || d.contentType)) firebaseCategories.push({ id: cs.key, ...d }); }); }
@@ -709,80 +795,174 @@
                      categories = combined; renderCategoriesInMenu(); updateCategoryListForAdmin();
                  }, (error) => { console.error("Error loading categories:", error); categories = [...defaultCategories]; renderCategoriesInMenu(); updateCategoryListForAdmin(); });
             }
-            function renderCategoriesInMenu() { /* ... renderCategoriesInMenu logic ... */
+            function renderCategoriesInMenu() {
                  if (!sideMenu) return; const ul = sideMenu.querySelector('ul'); if (!ul) return;
                  ul.querySelectorAll('li:not(:first-child)').forEach(link => link.remove());
                  categories.forEach(cat => { const li = document.createElement('li'); const a = document.createElement('a'); a.href = '#'; a.classList.add('nav-link'); a.dataset.page = cat.page || 'generic-category-page'; a.dataset.categoryId = cat.id; a.innerHTML = `<i class="${cat.icon || 'fas fa-folder'}"></i> ${cat.name}`; li.appendChild(a); ul.appendChild(li); });
             }
-            function loadHomePageContent() { /* ... loadHomePageContent logic ... */
+            function loadHomePageContent() {
                  const videosContainer = document.getElementById('featured-videos-container'); const websitesContainer = document.getElementById('featured-websites-container');
                  if (videosContainer) { videosContainer.innerHTML = '<p>লোড হচ্ছে...</p>'; const q = dbQuery(dbRef(database, 'content/videos'), dbOrderByChild("timestamp"), dbLimitToLast(3)); dbGet(q).then(s => { videosContainer.innerHTML = ''; if(s.exists()){ const f = []; s.forEach(i => f.push({ id: i.key, ...i.val() })); f.reverse().forEach(item => renderContentItem(item, videosContainer, 'video')); } else { videosContainer.innerHTML = "<p>ভিডিও নেই।</p>"; }}).catch(e => { videosContainer.innerHTML = "<p>লোড সমস্যা।</p>"; }); }
                  if (websitesContainer) { websitesContainer.innerHTML = '<p>লোড হচ্ছে...</p>'; const q = dbQuery(dbRef(database, 'content/websites'), dbOrderByChild("timestamp"), dbLimitToLast(3)); dbGet(q).then(s => { websitesContainer.innerHTML = ''; if(s.exists()){ const f = []; s.forEach(i => f.push({ id: i.key, ...i.val() })); f.reverse().forEach(item => renderContentItem(item, websitesContainer, 'website')); } else { websitesContainer.innerHTML = "<p>ওয়েবসাইট নেই।</p>"; }}).catch(e => { websitesContainer.innerHTML = "<p>লোড সমস্যা।</p>"; }); }
             }
-            function getContentLoader(containerId, contentPath, expectedItemType, emptyMsg) { /* ... getContentLoader logic ... */
+            function getContentLoader(containerId, contentPath, expectedItemType, emptyMsg) {
                  const container = document.getElementById(containerId); if (!container) return; container.innerHTML = `<p>লোড হচ্ছে...</p>`; const contentQuery = dbQuery(dbRef(database, contentPath), dbOrderByChild("timestamp"));
                  dbOnValue(contentQuery, (snapshot) => { container.innerHTML = ''; if (snapshot.exists()) { let itemCount = 0; const itemsToRender = []; snapshot.forEach(itemSnap => { const itemData = itemSnap.val(); const itemId = itemSnap.key; if (itemData && itemData.contentId === true && itemData.type) { const actualRef = dbRef(database, `content/${itemData.type}s/${itemId}`); dbGet(actualRef).then(cs => { if(cs.exists()) { const currentCont = document.getElementById(containerId); if(currentCont) renderContentItem({ id: itemId, ...cs.val() }, currentCont, itemData.type); }}); itemCount++; } else if (itemData && itemData.title && itemData.url) { itemsToRender.push({ id: itemId, ...itemData }); itemCount++; }}); itemsToRender.reverse().forEach(item => renderContentItem(item, container, expectedItemType)); if (itemCount === 0) container.innerHTML = `<p>${emptyMsg}</p>`; } else { container.innerHTML = `<p>${emptyMsg}</p>`; }}, (error) => { container.innerHTML = `<p>লোড সমস্যা।</p>`; });
             }
             function loadVideos(categoryId) { const id = document.getElementById('video-list') ? 'video-list' : 'generic-category-content'; const path = categoryId === 'videos' ? 'content/videos' : `contentByCategory/${categoryId}`; getContentLoader(id, path, 'video', 'কোনো ভিডিও নেই।'); }
             function loadWebsites(categoryId) { const id = document.getElementById('website-list') ? 'website-list' : 'generic-category-content'; const path = categoryId === 'websites' ? 'content/websites' : `contentByCategory/${categoryId}`; getContentLoader(id, path, 'website', 'কোনো ওয়েবসাইট নেই।'); }
             function loadGenericCategoryContent(category) { const c = document.getElementById('generic-category-content'); const t = document.getElementById('generic-category-title'); if (!c || !t || !category) return; t.textContent = category.name; const type = category.contentType || 'item'; const path = `contentByCategory/${category.id}`; getContentLoader('generic-category-content', path, type, `কোনো ${category.name} নেই।`); }
-            // Render single content item (YouTube ID extraction included)
-            function renderContentItem(itemData, container, type) { /* ... renderContentItem logic as previously updated ... */
+            
+            function renderContentItem(itemData, container, type) {
                 if (!itemData || !container || !itemData.id) { return; }
-                const itemDiv = document.createElement('div'); itemDiv.classList.add('content-item'); itemDiv.dataset.itemId = itemData.id; itemDiv.style.opacity = '0';
-                let imageUrl = itemData.imageUrl || `https://via.placeholder.com/300x160?text=${encodeURIComponent(itemData.title || type)}`;
-                if (type === 'video' && !itemData.imageUrl) { const idForThumb = extractYouTubeId(itemData.url); if (idForThumb) { imageUrl = `https://img.youtube.com/vi/${idForThumb}/hqdefault.jpg`; }}
-                const imgErrorPlaceholder = `https://via.placeholder.com/300x160?text=Error`;
-                itemDiv.innerHTML = `<img src="${imageUrl}" alt="${itemData.title || 'কনটেন্ট'}" class="item-thumbnail" loading="lazy" onerror="this.onerror=null; this.src='${imgErrorPlaceholder}';"><h3>${itemData.title || 'শিরোনাম নেই'}</h3>${itemData.description ? `<p class="item-description">${linkify(itemData.description)}</p>` : ''}${type === 'video' && itemData.url ? `<button class="watch-btn"><i class="fas fa-play"></i> দেখুন</button>` : ''}${(type === 'website' || type === 'game' || type === 'tool' || type === 'item') && itemData.url ? `<button class="view-btn" data-url="${itemData.url}"><i class="fas fa-external-link-alt"></i> ভিজিট/ওপেন</button>` : ''}${isAdmin && currentUser ? `<button class="admin-delete-content-btn" data-item-id="${itemData.id}" data-item-type="${type}" data-category-id="${itemData.categoryId || ''}"><i class="fas fa-trash-alt"></i> মুছুন</button>` : ''}`;
-                // Video Button Listener
-                if (type === 'video' && itemData.url) { const watchBtn = itemDiv.querySelector('.watch-btn'); if (watchBtn) { const videoId = extractYouTubeId(itemData.url); if (videoId) { watchBtn.dataset.videoid = videoId; watchBtn.addEventListener('click', (e) => { const clickedVideoId = e.currentTarget.dataset.videoid; if (!clickedVideoId || !/^[a-zA-Z0-9_-]{11}$/.test(clickedVideoId)) { alert(`ত্রুটি: ভুল আইডি (${clickedVideoId})।`); return; } const existingModal = document.querySelector('.video-player-modal'); if (existingModal) { existingModal.remove(); } const videoPlayerModal = document.createElement('div'); videoPlayerModal.classList.add('video-player-modal'); videoPlayerModal.innerHTML = `<div class="video-player-content"><button class="close-modal-btn" aria-label="Close">×</button><h3>${itemData.title || 'ভিডিও'}</h3><div class="video-embed-container"><iframe src="https://www.youtube.com/embed/${clickedVideoId}?autoplay=1&rel=0&controls=1&showinfo=0&iv_load_policy=3" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe></div></div>`; document.body.appendChild(videoPlayerModal); const closeBtn = videoPlayerModal.querySelector('.close-modal-btn'); if (closeBtn) closeBtn.focus(); closeBtn.addEventListener('click', () => videoPlayerModal.remove()); videoPlayerModal.addEventListener('click', (ev) => { if (ev.target === videoPlayerModal) videoPlayerModal.remove(); }); const escapeKeyListener = (keyEvent) => { if (keyEvent.key === 'Escape') { videoPlayerModal.remove(); document.removeEventListener('keydown', escapeKeyListener); }}; document.addEventListener('keydown', escapeKeyListener); }); } else { console.error(`Invalid YouTube URL/ID in DB: ${itemData.url}`); watchBtn.textContent = 'ত্রুটি: ভুল লিঙ্ক'; watchBtn.disabled = true; }}}
-                // Website/Other Button Listener
-                 else if ((type === 'website' || type === 'game' || type === 'tool' || type === 'item') && itemData.url) { const viewBtn = itemDiv.querySelector('.view-btn'); if (viewBtn) { viewBtn.addEventListener('click', (e) => { const urlToOpen = e.currentTarget.dataset.url; if (urlToOpen && (urlToOpen.startsWith('http://') || urlToOpen.startsWith('https://'))) { window.open(urlToOpen, '_blank', 'noopener,noreferrer'); } else { alert(`ত্রুটি: ভুল URL (${urlToOpen})`); } }); } }
-                // Admin Delete Button Listener
-                 if (isAdmin && currentUser) { const deleteBtn = itemDiv.querySelector('.admin-delete-content-btn'); if(deleteBtn) { deleteBtn.addEventListener('click', (e) => { const btn = e.currentTarget; const itemId = btn.dataset.itemId; const itemType = btn.dataset.itemType; const categoryId = btn.dataset.categoryId; if (!itemId || !itemType) { return; } if (confirm(`"${itemData.title || 'এই আইটেমটি'}" (${itemType}) মুছে ফেলতে চান?`)) { const contentRef = dbRef(database, `content/${itemType}s/${itemId}`); dbRemove(contentRef).then(() => { if (categoryId) { const categoryRef = dbRef(database, `contentByCategory/${categoryId}/${itemId}`); return dbRemove(categoryRef); }}).then(() => { alert('কনটেন্ট মুছে ফেলা হয়েছে!'); }).catch(error => { alert('Error: ' + error.message); }); }}); }}
-                 container.appendChild(itemDiv); requestAnimationFrame(() => { itemDiv.style.opacity = '1'; });
-            }
-            function linkify(text) { /* ... linkify logic ... */ if (!text) return ''; const urlRegex = /(?<!=["'])(\b(https?|ftp|file):\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|])|(\bwww\.[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|])|(\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}\b)|(tg:\/\/join\?invite=[A-Za-z0-9_-]+)|(facebook\.com\/[-A-Za-z0-9_.]+)/ig; return text.replace(urlRegex, (url) => { let href = url; if (url.startsWith('www.')) { href = 'http://' + url; } else if (url.includes('@') && !url.startsWith('mailto:')) { href = 'mailto:' + url; } return `<a href="${href}" target="_blank" rel="noopener noreferrer">${url}</a>`; }); }
+                const itemDiv = document.createElement('div');
+                itemDiv.classList.add('content-item');
+                itemDiv.dataset.itemId = itemData.id;
+                itemDiv.style.opacity = '0';
 
-            // --- NOTIFICATIONS ---
-            function loadNotifications() { /* ... loadNotifications logic ... */
+                let imageUrl = itemData.imageUrl || `https://via.placeholder.com/300x160?text=${encodeURIComponent(itemData.title || type)}`;
+                if (type === 'video' && !itemData.imageUrl) {
+                    const idForThumb = extractYouTubeId(itemData.url);
+                    if (idForThumb) { imageUrl = `https://img.youtube.com/vi/${idForThumb}/hqdefault.jpg`; }
+                }
+                const imgErrorPlaceholder = `https://via.placeholder.com/300x160?text=Error`;
+
+                const descriptionText = itemData.description || '';
+                let descriptionElementHTML = '';
+                if (descriptionText) {
+                    descriptionElementHTML = `<p class="item-description" data-full-description="${encodeURIComponent(descriptionText)}">${linkify(descriptionText)}</p>`;
+                }
+
+                itemDiv.innerHTML = `
+                    <img src="${imageUrl}" alt="${itemData.title || 'কনটেন্ট'}" class="item-thumbnail" loading="lazy" onerror="this.onerror=null; this.src='${imgErrorPlaceholder}';">
+                    <h3>${itemData.title || 'শিরোনাম নেই'}</h3>
+                    ${descriptionElementHTML}
+                    <div class="content-item-actions">
+                        ${type === 'video' && itemData.url ? `<button class="watch-btn"><i class="fas fa-play"></i> দেখুন</button>` : ''}
+                        ${(type === 'website' || type === 'game' || type === 'tool' || type === 'item') && itemData.url ? `<button class="view-btn" data-url="${itemData.url}"><i class="fas fa-external-link-alt"></i> ভিজিট/ওপেন</button>` : ''}
+                    </div>
+                    ${isAdmin && currentUser ? `<button class="admin-delete-content-btn" data-item-id="${itemData.id}" data-item-type="${type}" data-category-id="${itemData.categoryId || ''}"><i class="fas fa-trash-alt"></i> মুছুন</button>` : ''}
+                `;
+                container.appendChild(itemDiv);
+
+                const descriptionParagraph = itemDiv.querySelector('p.item-description');
+                const actionsContainer = itemDiv.querySelector('.content-item-actions');
+
+                if (descriptionParagraph && descriptionParagraph.scrollHeight > descriptionParagraph.clientHeight) {
+                    const readMoreBtn = document.createElement('button');
+                    readMoreBtn.classList.add('read-more-description-btn');
+                    readMoreBtn.innerHTML = 'আরো দেখুন <i class="fas fa-chevron-down"></i>';
+                    
+                    descriptionParagraph.parentNode.insertBefore(readMoreBtn, actionsContainer);
+
+                    readMoreBtn.addEventListener('click', (e) => {
+                        e.stopPropagation();
+                        const fullDescription = decodeURIComponent(descriptionParagraph.dataset.fullDescription);
+                        const itemTitle = itemData.title || 'বিবরণ';
+                        showDescriptionModal(itemTitle, fullDescription);
+                    });
+                }
+
+                if (type === 'video' && itemData.url) {
+                    const watchBtn = itemDiv.querySelector('.watch-btn');
+                    if (watchBtn) {
+                        const videoId = extractYouTubeId(itemData.url);
+                        if (videoId) {
+                            watchBtn.dataset.videoid = videoId;
+                            watchBtn.addEventListener('click', (e) => {
+                                const clickedVideoId = e.currentTarget.dataset.videoid;
+                                if (!clickedVideoId || !/^[a-zA-Z0-9_-]{11}$/.test(clickedVideoId)) { alert(`ত্রুটি: ভুল আইডি (${clickedVideoId})।`); return; }
+                                const existingModal = document.querySelector('.video-player-modal'); if (existingModal) { existingModal.remove(); }
+                                const videoPlayerModal = document.createElement('div'); videoPlayerModal.classList.add('video-player-modal');
+                                videoPlayerModal.innerHTML = `<div class="video-player-content"><button class="close-modal-btn" aria-label="Close">×</button><h3>${itemData.title || 'ভিডিও'}</h3><div class="video-embed-container"><iframe src="https://www.youtube.com/embed/${clickedVideoId}?autoplay=1&rel=0&controls=1&showinfo=0&iv_load_policy=3" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe></div></div>`;
+                                document.body.appendChild(videoPlayerModal);
+                                const closeBtn = videoPlayerModal.querySelector('.close-modal-btn'); if (closeBtn) closeBtn.focus();
+                                closeBtn.addEventListener('click', () => videoPlayerModal.remove());
+                                videoPlayerModal.addEventListener('click', (ev) => { if (ev.target === videoPlayerModal) videoPlayerModal.remove(); });
+                                const escapeKeyListener = (keyEvent) => { if (keyEvent.key === 'Escape') { videoPlayerModal.remove(); document.removeEventListener('keydown', escapeKeyListener); }};
+                                document.addEventListener('keydown', escapeKeyListener);
+                            });
+                        } else { watchBtn.textContent = 'ত্রুটি: ভুল লিঙ্ক'; watchBtn.disabled = true; }
+                    }
+                }
+                 else if ((type === 'website' || type === 'game' || type === 'tool' || type === 'item') && itemData.url) {
+                    const viewBtn = itemDiv.querySelector('.view-btn');
+                    if (viewBtn) {
+                        viewBtn.addEventListener('click', (e) => {
+                            const urlToOpen = e.currentTarget.dataset.url;
+                            if (urlToOpen && (urlToOpen.startsWith('http://') || urlToOpen.startsWith('https://'))) { window.open(urlToOpen, '_blank', 'noopener,noreferrer'); }
+                            else { alert(`ত্রুটি: ভুল URL (${urlToOpen})`); }
+                        });
+                    }
+                }
+                 if (isAdmin && currentUser) {
+                    const deleteBtn = itemDiv.querySelector('.admin-delete-content-btn');
+                    if(deleteBtn) {
+                        deleteBtn.addEventListener('click', (e) => {
+                            const btn = e.currentTarget; const itemId = btn.dataset.itemId; const itemType = btn.dataset.itemType; const categoryId = btn.dataset.categoryId;
+                            if (!itemId || !itemType) { return; }
+                            if (confirm(`"${itemData.title || 'এই আইটেমটি'}" (${itemType}) মুছে ফেলতে চান?`)) {
+                                const contentRef = dbRef(database, `content/${itemType}s/${itemId}`);
+                                dbRemove(contentRef).then(() => { if (categoryId) { const categoryRef = dbRef(database, `contentByCategory/${categoryId}/${itemId}`); return dbRemove(categoryRef); }}).then(() => { alert('কনটেন্ট মুছে ফেলা হয়েছে!'); }).catch(error => { alert('Error: ' + error.message); });
+                            }
+                        });
+                    }
+                 }
+                 requestAnimationFrame(() => { itemDiv.style.opacity = '1'; });
+            }
+            
+            function showDescriptionModal(title, description) {
+                const existingModal = document.querySelector('.description-modal');
+                if (existingModal) { existingModal.remove(); }
+
+                const modal = document.createElement('div');
+                modal.classList.add('description-modal');
+                modal.innerHTML = `
+                    <div class="description-modal-content">
+                        <h3>${title}</h3>
+                        <div class="description-modal-body">${linkify(description)}</div>
+                        <button class="description-modal-close-btn">বন্ধ করুন</button>
+                    </div>
+                `;
+                document.body.appendChild(modal);
+                const closeModalBtn = modal.querySelector('.description-modal-close-btn');
+                closeModalBtn.addEventListener('click', () => modal.remove());
+                modal.addEventListener('click', (e) => { if (e.target === modal) modal.remove(); });
+                const escapeKeyListenerModal = (keyEvent) => {
+                    if (keyEvent.key === 'Escape') { modal.remove(); document.removeEventListener('keydown', escapeKeyListenerModal); }
+                };
+                document.addEventListener('keydown', escapeKeyListenerModal);
+                closeModalBtn.focus();
+            }
+
+            function linkify(text) { if (!text) return ''; const urlRegex = /(?<!=["'])(\b(https?|ftp|file):\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|])|(\bwww\.[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|])|(\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}\b)|(tg:\/\/join\?invite=[A-Za-z0-9_-]+)|(facebook\.com\/[-A-Za-z0-9_.]+)/ig; return text.replace(urlRegex, (url) => { let href = url; if (url.startsWith('www.')) { href = 'http://' + url; } else if (url.includes('@') && !url.startsWith('mailto:')) { href = 'mailto:' + url; } return `<a href="${href}" target="_blank" rel="noopener noreferrer">${url}</a>`; }); }
+
+            function loadNotifications() {
                  const list = document.getElementById('notification-list'); if (!list) return; list.innerHTML = "<p>লোড হচ্ছে...</p>"; const notificationsQuery = dbQuery(dbRef(database, 'notifications'), dbOrderByChild("timestamp"), dbLimitToLast(25));
                  dbOnValue(notificationsQuery, (snapshot) => { list.innerHTML = ""; let newLatestTimestamp = lastSeenNotificationTimestamp; if (snapshot.exists()) { const notificationsArray = []; snapshot.forEach(itemSnap => { const notifData = { id: itemSnap.key, ...itemSnap.val() }; if (notifData.timestamp > newLatestTimestamp) { newLatestTimestamp = notifData.timestamp; } notificationsArray.push(notifData); }); notificationsArray.reverse(); notificationsArray.forEach(notif => { const item = document.createElement('div'); item.classList.add('notification-item'); item.innerHTML = `<h4>${notif.title || 'নোটিফিকেশন'}</h4><p>${linkify(notif.message || '')}</p><small>${notif.timestamp ? new Date(notif.timestamp).toLocaleString() : 'N/A'}</small>${isAdmin && currentUser ? `<button class="admin-delete-notification-btn" data-notif-id="${notif.id}" title="মুছুন">×</button>` : ''}`; list.appendChild(item); if (isAdmin && currentUser) { const deleteBtn = item.querySelector('.admin-delete-notification-btn'); if (deleteBtn) { deleteBtn.addEventListener('click', (e) => { const notifId = e.currentTarget.dataset.notifId; if (confirm('নোটিফিকেশনটি মুছতে চান?')) { dbRemove(dbRef(database, `notifications/${notifId}`)).catch(err => alert('Error: ' + err.message)); }}); } } }); if (newLatestTimestamp > lastSeenNotificationTimestamp) { lastSeenNotificationTimestamp = newLatestTimestamp; localStorage.setItem('lastSeenNotificationTimestamp', lastSeenNotificationTimestamp); updateNotificationBadgeUI(false); } } else { list.innerHTML = "<p>কোনো নোটিফিকেশন নেই।</p>"; updateNotificationBadgeUI(false); } }, (error) => { list.innerHTML = "<p>Error loading notifications.</p>"; });
             }
-            function updateNotificationBadgeUI(hasNew) { /* ... update badge logic ... */ if (!notificationBadge) return; notificationBadge.style.display = hasNew ? 'inline-block' : 'none'; if(hasNew) notificationBadge.textContent = '●'; }
-            function checkForNewNotifications() { /* ... check logic ... */ if (!currentUser) return; const q = dbQuery(dbRef(database, 'notifications'), dbOrderByChild("timestamp"), dbLimitToLast(1)); dbGet(q).then(s => { if (s.exists()) { const k = Object.keys(s.val())[0]; const n = s.val()[k]; if (n && n.timestamp > lastSeenNotificationTimestamp) { updateNotificationBadgeUI(true); } else { updateNotificationBadgeUI(false); }} else { updateNotificationBadgeUI(false); }}).catch(e => {}); }
+            function updateNotificationBadgeUI(hasNew) { if (!notificationBadge) return; notificationBadge.style.display = hasNew ? 'inline-block' : 'none'; if(hasNew) notificationBadge.textContent = '●'; }
+            function checkForNewNotifications() { if (!currentUser) return; const q = dbQuery(dbRef(database, 'notifications'), dbOrderByChild("timestamp"), dbLimitToLast(1)); dbGet(q).then(s => { if (s.exists()) { const k = Object.keys(s.val())[0]; const n = s.val()[k]; if (n && n.timestamp > lastSeenNotificationTimestamp) { updateNotificationBadgeUI(true); } else { updateNotificationBadgeUI(false); }} else { updateNotificationBadgeUI(false); }}).catch(e => {}); }
             if (notificationBtn) { notificationBtn.addEventListener('click', () => { navigateToPage('notification-page', 'নোটিফিকেশন'); updateNotificationBadgeUI(false); }); }
 
-            // --- CHAT FUNCTIONS REMOVED ---
+            function loadAdminPanelData() { if (!isAdmin || !currentUser) { navigateToPage('settings-page', 'সেটিংস'); return; } loadCategoriesForAdminList(); updateCategoryListForAdmin(); loadUsersForAdmin(); loadAdminCustomizations(); }
+            if (adminAddCatBtn) { adminAddCatBtn.addEventListener('click', () => { const name = adminCatName.value.trim(); const icon = adminCatIcon.value.trim() || 'fas fa-folder'; const contentTypeInput = prompt("ক্যাটাগরির আইডি দিন (যেমন: games, tools)", "item"); const contentType = contentTypeInput ? contentTypeInput.toLowerCase().trim().replace(/[^a-z0-9_-]/g, '') : null; if (name && contentType) { const alreadyExists = categories.some(cat => cat.id === contentType || cat.name.toLowerCase() === name.toLowerCase()); if (alreadyExists) { alert(`ক্যাটাগরি আছে।`); return; } const newCatRef = dbRef(database, `categories/${contentType}`); dbSet(newCatRef, { name, icon, page: 'generic-category-page', contentType, createdBy: currentUser.uid, createdAt: serverTimestamp() }).then(() => { alert(`ক্যাটাগরি যোগ করা হয়েছে!`); adminCatName.value = ''; adminCatIcon.value = ''; }).catch(error => alert('Error: ' + error.message)); } else { alert('নাম এবং আইডি দিন।'); } }); }
+            function loadCategoriesForAdminList() { if (!adminCategoryList) return; adminCategoryList.innerHTML = ''; let customCategoryFound = false; categories.forEach(catData => { const isCore = defaultCategories.some(defCat => defCat.id === catData.id); if (!isCore) { customCategoryFound = true; const itemDiv = document.createElement('div'); itemDiv.classList.add('admin-category-item'); itemDiv.innerHTML = `<span><i class="${catData.icon || 'fas fa-folder'}"></i> ${catData.name} (ID: ${catData.id}, Type: ${catData.contentType || 'N/A'})</span><button data-id="${catData.id}" class="admin-delete-btn">মুছুন</button>`; itemDiv.querySelector('.admin-delete-btn').addEventListener('click', (e) => deleteCategory(e.currentTarget.dataset.id, catData.name)); adminCategoryList.appendChild(itemDiv); }}); if (!customCategoryFound) adminCategoryList.innerHTML = '<p>কোনো কাস্টম ক্যাটাগরি নেই।</p>'; }
+            function deleteCategory(catId, catName) { if (!catId || defaultCategories.some(defCat => defCat.id === catId)) { alert(`কোর ক্যাটাগরি মোছা যাবে না।`); return; } if (confirm(`"${catName}" (ID: ${catId}) ক্যাটাগরিটি মুছতে চান?`)) { dbRemove(dbRef(database, `categories/${catId}`)).then(() => dbRemove(dbRef(database, `contentByCategory/${catId}`))).then(() => alert(`"${catName}" ক্যাটাগরি মুছে ফেলা হয়েছে!`)).catch(error => alert('Error: ' + error.message)); } }
+            function updateCategoryListForAdmin() { if (!adminContentCategorySelect) return; const previousValue = adminContentCategorySelect.value; adminContentCategorySelect.innerHTML = ''; categories.forEach(cat => { const option = document.createElement('option'); option.value = cat.id; option.textContent = `${cat.name} (${cat.contentType || cat.id})`; option.dataset.contentType = cat.contentType || cat.id; adminContentCategorySelect.appendChild(option); }); if (Array.from(adminContentCategorySelect.options).some(opt => opt.value === previousValue)) { adminContentCategorySelect.value = previousValue; }}
+            if (adminUploadContentBtn) { adminUploadContentBtn.addEventListener('click', () => { const title = adminContentTitle.value.trim(); let urlInput = adminContentUrl.value.trim(); const imageUrl = adminContentImageUrl.value.trim(); const description = adminContentDescription.value.trim(); const selectedOption = adminContentCategorySelect.options[adminContentCategorySelect.selectedIndex]; if (!title || !urlInput || !selectedOption) return alert('শিরোনাম, URL/ID এবং ক্যাটাগরি দিন।'); const categoryId = selectedOption.value; const finalContentTypeForStorage = selectedOption.dataset.contentType; if (!finalContentTypeForStorage) return alert(`Error: ক্যাটাগরির টাইপ পাওয়া যায়নি।`); let finalUrlToSave = urlInput; if (finalContentTypeForStorage === 'video') { const extractedId = extractYouTubeId(urlInput); if (extractedId) { finalUrlToSave = extractedId; } else { alert(`ত্রুটি: "${urlInput}" একটি বৈধ YouTube লিঙ্ক বা আইডি নয়।`); return; } } const contentData = { title, url: finalUrlToSave, imageUrl, description, categoryId, uploadedBy: currentUser.uid, uploadedAt: serverTimestamp(), timestamp: serverTimestamp() }; const contentStoragePath = `content/${finalContentTypeForStorage}s`; const contentItemRef = dbPush(dbRef(database, contentStoragePath)); const contentId = contentItemRef.key; if (!contentId) return alert("Error: কনটেন্ট আইডি তৈরি করা যায়নি।"); dbSet(contentItemRef, contentData).then(() => dbSet(dbRef(database, `contentByCategory/${categoryId}/${contentId}`), { contentId: true, type: finalContentTypeForStorage, timestamp: serverTimestamp() })).then(() => { alert('কনটেন্ট আপলোড করা হয়েছে!'); [adminContentTitle, adminContentUrl, adminContentImageUrl, adminContentDescription].forEach(el => { if(el) el.value = ''; }); }).catch(error => alert('Error: ' + error.message)); }); }
+            if (adminApplyColorsBtn) { adminApplyColorsBtn.addEventListener('click', () => { const bgColor = adminBgColorInput.value; const primaryColor = adminPrimaryColorInput.value; document.documentElement.style.setProperty('--background-color', bgColor); document.documentElement.style.setProperty('--primary-color', primaryColor); dbSet(dbRef(database, 'appSettings/colors'), { background: bgColor, primary: primaryColor }).then(() => alert("রঙ আপডেট করা হয়েছে!")).catch(err => alert("Error: " + err.message)); }); }
+            if (adminSendNotificationBtn) { adminSendNotificationBtn.addEventListener('click', () => { const title = adminNotificationTitle.value.trim(); const message = adminNotificationMessage.value.trim(); if (!title || !message) return alert("শিরোনাম এবং মেসেজ দিন।"); dbPush(dbRef(database, 'notifications'), { title, message, timestamp: serverTimestamp(), sentBy: currentUser.uid }).then(() => { alert("নোটিফিকেশন পাঠানো হয়েছে!"); if(adminNotificationTitle) adminNotificationTitle.value = ''; if(adminNotificationMessage) adminNotificationMessage.value = ''; }).catch(error => alert("Error: " + error.message)); }); }
+            function loadUsersForAdmin() { if (!adminUserListContainer || !isAdmin) return; adminUserListContainer.innerHTML = "<p>লোড হচ্ছে...</p>"; dbOnValue(dbRef(database, 'users'), (snapshot) => { adminUserListContainer.innerHTML = ""; if (snapshot.exists()) { snapshot.forEach(userSnap => { const userData = userSnap.val(); const userId = userSnap.key; const userDiv = document.createElement('div'); userDiv.classList.add('admin-category-item'); userDiv.innerHTML = `<div style="flex-grow:1;"><strong>${userData.username || 'N/A'}</strong><small>${userData.email || 'N/A'}</small><small>Rank: ${userData.rank || 'N/A'} | UID: ${userId}</small></div><label style="margin-left:10px; display:flex; align-items: center; white-space: nowrap;">Admin:<input type="checkbox" class="admin-status-toggle" data-userid="${userId}" ${userData.isAdmin ? 'checked' : ''} style="margin-left: 5px;"></label>`; adminUserListContainer.appendChild(userDiv); }); adminUserListContainer.querySelectorAll('.admin-status-toggle').forEach(toggle => { toggle.addEventListener('change', (e) => { const targetUserId = e.target.dataset.userid; const isAdminStatus = e.target.checked; if (targetUserId === currentUser.uid && !isAdminStatus) { alert("নিজের অ্যাডমিন স্ট্যাটাস মুছতে পারবেন না।"); e.target.checked = true; return; } dbSet(dbRef(database, `users/${targetUserId}/isAdmin`), isAdminStatus).then(() => alert(`ব্যবহারকারী ${targetUserId} এর স্ট্যাটাস ${isAdminStatus ? 'সক্রিয়' : 'নিষ্ক্রিয়'} করা হয়েছে।`)).catch(err => { alert("Error: " + err.message); e.target.checked = !isAdminStatus; }); }); }); } else { adminUserListContainer.innerHTML = "<p>কোনো ব্যবহারকারী নেই।</p>"; } }, (error) => { console.error(error); adminUserListContainer.innerHTML = "<p>Error loading users.</p>"; }); }
 
-            // --- ADMIN PANEL ---
-            function loadAdminPanelData() { /* ... loadAdminPanelData logic ... */ if (!isAdmin || !currentUser) { navigateToPage('settings-page', 'সেটিংস'); return; } loadCategoriesForAdminList(); updateCategoryListForAdmin(); loadUsersForAdmin(); loadAdminCustomizations(); }
-            // Add Category
-            if (adminAddCatBtn) { adminAddCatBtn.addEventListener('click', () => { /* ... add category listener ... */ const name = adminCatName.value.trim(); const icon = adminCatIcon.value.trim() || 'fas fa-folder'; const contentTypeInput = prompt("ক্যাটাগরির আইডি দিন (যেমন: games, tools)", "item"); const contentType = contentTypeInput ? contentTypeInput.toLowerCase().trim().replace(/[^a-z0-9_-]/g, '') : null; if (name && contentType) { const alreadyExists = categories.some(cat => cat.id === contentType || cat.name.toLowerCase() === name.toLowerCase()); if (alreadyExists) { alert(`ক্যাটাগরি আছে।`); return; } const newCatRef = dbRef(database, `categories/${contentType}`); dbSet(newCatRef, { name, icon, page: 'generic-category-page', contentType, createdBy: currentUser.uid, createdAt: serverTimestamp() }).then(() => { alert(`ক্যাটাগরি যোগ করা হয়েছে!`); adminCatName.value = ''; adminCatIcon.value = ''; }).catch(error => alert('Error: ' + error.message)); } else { alert('নাম এবং আইডি দিন।'); } }); }
-            // List/Delete Categories
-            function loadCategoriesForAdminList() { /* ... loadCategoriesForAdminList logic ... */ if (!adminCategoryList) return; adminCategoryList.innerHTML = ''; let customCategoryFound = false; categories.forEach(catData => { const isCore = defaultCategories.some(defCat => defCat.id === catData.id); if (!isCore) { customCategoryFound = true; const itemDiv = document.createElement('div'); itemDiv.classList.add('admin-category-item'); itemDiv.innerHTML = `<span><i class="${catData.icon || 'fas fa-folder'}"></i> ${catData.name} (ID: ${catData.id}, Type: ${catData.contentType || 'N/A'})</span><button data-id="${catData.id}" class="admin-delete-btn">মুছুন</button>`; itemDiv.querySelector('.admin-delete-btn').addEventListener('click', (e) => deleteCategory(e.currentTarget.dataset.id, catData.name)); adminCategoryList.appendChild(itemDiv); }}); if (!customCategoryFound) adminCategoryList.innerHTML = '<p>কোনো কাস্টম ক্যাটাগরি নেই।</p>'; }
-            function deleteCategory(catId, catName) { /* ... deleteCategory logic ... */ if (!catId || defaultCategories.some(defCat => defCat.id === catId)) { alert(`কোর ক্যাটাগরি মোছা যাবে না।`); return; } if (confirm(`"${catName}" (ID: ${catId}) ক্যাটাগরিটি মুছতে চান?`)) { dbRemove(dbRef(database, `categories/${catId}`)).then(() => dbRemove(dbRef(database, `contentByCategory/${catId}`))).then(() => alert(`"${catName}" ক্যাটাগরি মুছে ফেলা হয়েছে!`)).catch(error => alert('Error: ' + error.message)); } }
-            // Update Category Select Dropdown
-            function updateCategoryListForAdmin() { /* ... updateCategoryListForAdmin logic ... */ if (!adminContentCategorySelect) return; const previousValue = adminContentCategorySelect.value; adminContentCategorySelect.innerHTML = ''; categories.forEach(cat => { const option = document.createElement('option'); option.value = cat.id; option.textContent = `${cat.name} (${cat.contentType || cat.id})`; option.dataset.contentType = cat.contentType || cat.id; adminContentCategorySelect.appendChild(option); }); if (Array.from(adminContentCategorySelect.options).some(opt => opt.value === previousValue)) { adminContentCategorySelect.value = previousValue; }}
-            // Upload Content
-            if (adminUploadContentBtn) { adminUploadContentBtn.addEventListener('click', () => { /* ... upload listener (with YT ID extraction) ... */ const title = adminContentTitle.value.trim(); let urlInput = adminContentUrl.value.trim(); const imageUrl = adminContentImageUrl.value.trim(); const description = adminContentDescription.value.trim(); const selectedOption = adminContentCategorySelect.options[adminContentCategorySelect.selectedIndex]; if (!title || !urlInput || !selectedOption) return alert('শিরোনাম, URL/ID এবং ক্যাটাগরি দিন।'); const categoryId = selectedOption.value; const finalContentTypeForStorage = selectedOption.dataset.contentType; if (!finalContentTypeForStorage) return alert(`Error: ক্যাটাগরির টাইপ পাওয়া যায়নি।`); let finalUrlToSave = urlInput; if (finalContentTypeForStorage === 'video') { const extractedId = extractYouTubeId(urlInput); if (extractedId) { finalUrlToSave = extractedId; } else { alert(`ত্রুটি: "${urlInput}" একটি বৈধ YouTube লিঙ্ক বা আইডি নয়।`); return; } } const contentData = { title, url: finalUrlToSave, imageUrl, description, categoryId, uploadedBy: currentUser.uid, uploadedAt: serverTimestamp(), timestamp: serverTimestamp() }; const contentStoragePath = `content/${finalContentTypeForStorage}s`; const contentItemRef = dbPush(dbRef(database, contentStoragePath)); const contentId = contentItemRef.key; if (!contentId) return alert("Error: কনটেন্ট আইডি তৈরি করা যায়নি।"); dbSet(contentItemRef, contentData).then(() => dbSet(dbRef(database, `contentByCategory/${categoryId}/${contentId}`), { contentId: true, type: finalContentTypeForStorage, timestamp: serverTimestamp() })).then(() => { alert('কনটেন্ট আপলোড করা হয়েছে!'); [adminContentTitle, adminContentUrl, adminContentImageUrl, adminContentDescription].forEach(el => { if(el) el.value = ''; }); }).catch(error => alert('Error: ' + error.message)); }); }
-            // Apply Colors
-            if (adminApplyColorsBtn) { adminApplyColorsBtn.addEventListener('click', () => { /* ... apply colors listener ... */ const bgColor = adminBgColorInput.value; const primaryColor = adminPrimaryColorInput.value; document.documentElement.style.setProperty('--background-color', bgColor); document.documentElement.style.setProperty('--primary-color', primaryColor); dbSet(dbRef(database, 'appSettings/colors'), { background: bgColor, primary: primaryColor }).then(() => alert("রঙ আপডেট করা হয়েছে!")).catch(err => alert("Error: " + err.message)); }); }
-            // Send Notification
-            if (adminSendNotificationBtn) { adminSendNotificationBtn.addEventListener('click', () => { /* ... send notification listener ... */ const title = adminNotificationTitle.value.trim(); const message = adminNotificationMessage.value.trim(); if (!title || !message) return alert("শিরোনাম এবং মেসেজ দিন।"); dbPush(dbRef(database, 'notifications'), { title, message, timestamp: serverTimestamp(), sentBy: currentUser.uid }).then(() => { alert("নোটিফিকেশন পাঠানো হয়েছে!"); if(adminNotificationTitle) adminNotificationTitle.value = ''; if(adminNotificationMessage) adminNotificationMessage.value = ''; }).catch(error => alert("Error: " + error.message)); }); }
-            // Load Users for Admin
-            function loadUsersForAdmin() { /* ... loadUsersForAdmin logic ... */ if (!adminUserListContainer || !isAdmin) return; adminUserListContainer.innerHTML = "<p>লোড হচ্ছে...</p>"; dbOnValue(dbRef(database, 'users'), (snapshot) => { adminUserListContainer.innerHTML = ""; if (snapshot.exists()) { snapshot.forEach(userSnap => { const userData = userSnap.val(); const userId = userSnap.key; const userDiv = document.createElement('div'); userDiv.classList.add('admin-category-item'); userDiv.innerHTML = `<div style="flex-grow:1;"><strong>${userData.username || 'N/A'}</strong><small>${userData.email || 'N/A'}</small><small>Rank: ${userData.rank || 'N/A'} | UID: ${userId}</small></div><label style="margin-left:10px; display:flex; align-items: center; white-space: nowrap;">Admin:<input type="checkbox" class="admin-status-toggle" data-userid="${userId}" ${userData.isAdmin ? 'checked' : ''} style="margin-left: 5px;"></label>`; adminUserListContainer.appendChild(userDiv); }); adminUserListContainer.querySelectorAll('.admin-status-toggle').forEach(toggle => { toggle.addEventListener('change', (e) => { const targetUserId = e.target.dataset.userid; const isAdminStatus = e.target.checked; if (targetUserId === currentUser.uid && !isAdminStatus) { alert("নিজের অ্যাডমিন স্ট্যাটাস মুছতে পারবেন না।"); e.target.checked = true; return; } dbSet(dbRef(database, `users/${targetUserId}/isAdmin`), isAdminStatus).then(() => alert(`ব্যবহারকারী ${targetUserId} এর স্ট্যাটাস ${isAdminStatus ? 'সক্রিয়' : 'নিষ্ক্রিয়'} করা হয়েছে।`)).catch(err => { alert("Error: " + err.message); e.target.checked = !isAdminStatus; }); }); }); } else { adminUserListContainer.innerHTML = "<p>কোনো ব্যবহারকারী নেই।</p>"; } }, (error) => { console.error(error); adminUserListContainer.innerHTML = "<p>Error loading users.</p>"; }); }
-
-            // --- INITIAL LOAD & INTERVALS ---
             loadCategories(); checkForNewNotifications();
             const notificationCheckInterval = setInterval(checkForNewNotifications, 60000);
-            window.addEventListener('beforeunload', () => { clearInterval(notificationCheckInterval); /* No chat listener to clear */ });
+            window.addEventListener('beforeunload', () => { clearInterval(notificationCheckInterval); });
 
-            // --- NAVIGATION EVENT LISTENERS ---
-            bottomNavItems.forEach(item => { item.addEventListener('click', (e) => { /* ... bottom nav listener ... */ e.preventDefault(); const pageId = item.dataset.page; const pageTitleText = item.querySelector('span') ? item.querySelector('span').textContent : 'Page'; const categoryId = item.dataset.categoryId; const category = categoryId ? categories.find(cat => cat.id === categoryId) : null; navigateToPage(pageId, pageTitleText, !!categoryId, categoryId, category); }); });
-            if (sideMenu) { sideMenu.addEventListener('click', (e) => { /* ... side menu listener ... */ const link = e.target.closest('a.nav-link'); if (link && sideMenu.contains(link)) { e.preventDefault(); const pageId = link.dataset.page; const categoryId = link.dataset.categoryId; const category = categoryId ? categories.find(cat => cat.id === categoryId) : null; const titleTextContent = link.textContent || ''; const iconElement = link.querySelector('i'); const pageTitleText = iconElement ? titleTextContent.replace(iconElement.textContent, '').trim() : titleTextContent.trim(); navigateToPage(pageId, pageTitleText, !!categoryId, categoryId, category); } }); }
+            bottomNavItems.forEach(item => { item.addEventListener('click', (e) => { e.preventDefault(); const pageId = item.dataset.page; const pageTitleText = item.querySelector('span') ? item.querySelector('span').textContent : 'Page'; const categoryId = item.dataset.categoryId; const category = categoryId ? categories.find(cat => cat.id === categoryId) : null; navigateToPage(pageId, pageTitleText, !!categoryId, categoryId, category); }); });
+            if (sideMenu) { sideMenu.addEventListener('click', (e) => { const link = e.target.closest('a.nav-link'); if (link && sideMenu.contains(link)) { e.preventDefault(); const pageId = link.dataset.page; const categoryId = link.dataset.categoryId; const category = categoryId ? categories.find(cat => cat.id === categoryId) : null; const titleTextContent = link.textContent || ''; const iconElement = link.querySelector('i'); const pageTitleText = iconElement ? titleTextContent.replace(iconElement.textContent, '').trim() : titleTextContent.trim(); navigateToPage(pageId, pageTitleText, !!categoryId, categoryId, category); } }); }
 
-        }); // End DOMContentLoaded
+        });
     </script>
 </body>
 </html>
